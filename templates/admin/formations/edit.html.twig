@@ -1,0 +1,16 @@
+{% extends 'baseadmin.html.twig' %}
+
+{% block admin_title %}Modifier la Formation{% endblock %}
+
+{% block admin_body %}
+    <div class="container mt-4">
+        <h1>Modifier la formation "{{ formation.title }}"</h1>
+
+        {# Inclusion du formulaire partagé #}
+        {{ include('admin/formations/_form.html.twig', {'form': form, 'formation': formation}) }}
+
+        <div class="mt-3">
+            <a href="{{ path('admin.formations.index') }}" class="btn btn-secondary">Retour à la liste</a>
+        </div>
+    </div>
+{% endblock %}

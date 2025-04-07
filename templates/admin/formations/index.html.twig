@@ -1,0 +1,95 @@
+{% extends 'baseadmin.html.twig' %}
+
+{% block title %}Admin - Formations{% endblock %}
+
+{% block admin_body %}
+    <div class="container mt-4">
+        <h1>Gestion des Formations</h1>
+
+        {# Bouton Ajouter #}
+        <div class="text-end mb-3">
+            <a href="{{ path('admin.formations.ajout') }}" class="btn btn-success">Ajouter une formation</a>
+        </div>
+
+        <table class="table table-striped mt-4">
+            <thead>
+                <tr>
+                    {# Tri/Filtre Titre #}
+                    <th class="text-left align-top" scope="col">
+                        Titre<br />
+                        <a href="{{ path('admin.formations.sort', {champ:'title', ordre:'ASC'}) }}" class="btn btn-info btn-sm active" role="button" aria-pressed="true"><</a>
+                        <a href="{{ path('admin.formations.sort', {champ:'title', ordre:'DESC'}) }}" class="btn btn-info btn-sm active" role="button" aria-pressed="true">></a>
+                        <form class="form-inline mt-1" method="POST" action="{{ path('admin.formations.findallcontain', {champ:'title'}) }}">
+                            <div class="form-group mr-1 mb-2">
+                                <input type="text" class="sm" name="recherche" 
+                                       value="{% if valeur is defined and not table is defined %}{{ valeur }}{% endif %}">
+                                <button type="submit" class="btn btn-info mb-2 btn-sm">filtrer</button>
+                            </div>
+                        </form>
+                    </th>
+                    {# Tri/Filtre Playlist #}
+                    <th class="text-left align-top" scope="col">
+                        Playlist<br />
+                        <a href="{{ path('admin.formations.sort', {table:'playlist', champ:'name', ordre:'ASC'}) }}" class="btn btn-info btn-sm active" role="button" aria-pressed="true"><</a>
+                        <a href="{{ path('admin.formations.sort', {table:'playlist', champ:'name', ordre:'DESC'}) }}" class="btn btn-info btn-sm active" role="button" aria-pressed="true">></a>
+                        <form class="form-inline mt-1" method="POST" action="{{ path('admin.formations.findallcontain', {champ:'name', table:'playlist'}) }}">
+                             <div class="form-group mr-1 mb-2">
+                                <input type="text" class="sm" name="recherche" 
+                                       value="{% if valeur is defined and table is defined and table=='playlist' %}{{ valeur }}{% endif %}">
+                                <button type="submit" class="btn btn-info mb-2 btn-sm">filtrer</button>
+                            </div>
+                        </form>
+                    </th>
+                    {# Filtre Catégories #}
+                    <th class="text-left align-top" scope="col">
+                        Catégories<br />
+                        <form class="form-inline mt-1" method="POST" action="{{ path('admin.formations.findallcontain', {champ:'id', table:'categories'}) }}">
+                            <select class="form-select form-select-sm" name="recherche" id="recherche_categorie" onchange="this.form.submit()">
+                                <option value="">Toutes</option>
+                                {% for categorie in categories %}
+                                    <option 
+                                        {% if valeur is defined and table is defined and table == 'categories' and valeur==categorie.id %} 
+                                            selected
+                                        {% endif %} 
+                                        value="{{ categorie.id }}">{{ categorie.name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </form>
+                    </th>
+                    {# Tri Date #}
+                    <th class="text-center align-top" scope="col">
+                        Date<br />
+                        <a href="{{ path('admin.formations.sort', {champ:'publishedAt', ordre:'ASC'}) }}" class="btn btn-info btn-sm active" role="button" aria-pressed="true"><</a>
+                        <a href="{{ path('admin.formations.sort', {champ:'publishedAt', ordre:'DESC'}) }}" class="btn btn-info btn-sm active" role="button" aria-pressed="true">></a>
+                    </th>
+                    <th class="text-center align-top" scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for formation in formations %}
+                    <tr class="align-middle">
+                        <td>{{ formation.title }}</td>
+                        <td>{{ formation.playlist ? formation.playlist.name : 'Aucune' }}</td>
+                        <td>
+                            {% for categorie in formation.categories %}
+                                {{ categorie.name }}{% if not loop.last %}, {% endif %}
+                            {% else %}
+                                Aucune
+                            {% endfor %}
+                        </td>
+                        <td class="text-center">{{ formation.publishedAt ? formation.publishedAt|date('d/m/Y') : '' }}</td>
+                        <td class="text-center">
+                            <a href="{{ path('admin.formations.edit', {id: formation.id}) }}" class="btn btn-sm btn-primary">Modifier</a>
+                            <a href="{{ path('admin.formations.suppr', {id: formation.id}) }}" class="btn btn-sm btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer la formation \'{{ formation.title|escape('js') }}\' ? Cette action est irréversible.');">Supprimer</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="5" class="text-center">Aucune formation trouvée.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %} 

@@ -1,0 +1,56 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Administration - {% block admin_title %}{% endblock %}{% endblock %}
+
+{% block top %}
+    <div class="container">
+        <!-- titre -->
+        <div class="text-left">
+            <img src="{{ app.request.getBasePath()~'/banniere.jpg' }}" alt="Bannière Mediatek Formation - Admin">
+            <h1 class="d-inline align-middle">Administration</h1>
+        </div>
+        <!-- menu -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4 mt-2">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        {# Au cas où, si ajout d'une page d'accueil admin #}
+                        <a class="nav-link" href="#">Accueil Admin</a>
+                    </li>
+                    <li class="nav-item {% if app.request.attributes.get('_route') starts with 'admin.formations' %}active{% endif %}">
+                        <a class="nav-link" href="{{ path('admin.formations.index') }}">Formations</a>
+                    </li>
+                    <li class="nav-item {% if app.request.attributes.get('_route') starts with 'admin.playlists' %}active{% endif %}">
+                        <a class="nav-link" href="#">Playlists</a>
+                    </li>
+                    <li class="nav-item {% if app.request.attributes.get('_route') starts with 'admin.categories' %}active{% endif %}">
+                        <a class="nav-link" href="#">Catégories</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+{% endblock %}
+
+{% block body %}
+    {# Affichage des messages flash #}
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="container mt-2 alert alert-{{ label }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    {# Contenu spécifique à chaque page d'admin #}
+    {% block admin_body %}{% endblock %}
+{% endblock %}
+
+{% block footer %}
+    <div class="container text-center mt-4">
+        <footer>
+            <hr>
+            <p><small><i>Espace Administration Mediatek Formation</i></small></p>
+        </footer>
+    </div>
+{% endblock %} 

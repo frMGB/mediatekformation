@@ -1,0 +1,21 @@
+{{ form_start(form) }}
+
+    {# Affichage des erreurs globales du formulaire s'il y en a #}
+    {{ form_errors(form) }}
+
+    <div class="row">
+        <div class="col-md-8">
+            {{ form_row(form.title) }}
+            {{ form_row(form.description) }}
+            {{ form_row(form.videoId) }}
+        </div>
+        <div class="col-md-4">
+            {{ form_row(form.playlist) }}
+            {{ form_row(form.categories) }}
+            {{ form_row(form.publishedAt) }}
+        </div>
+    </div>
+
+    {{ form_row(form.submit) }}
+
+{{ form_end(form) }}
