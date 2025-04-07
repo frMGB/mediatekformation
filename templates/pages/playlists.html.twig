@@ -33,6 +33,11 @@
                     </form>            
                 </th>
                 <th class="text-center align-top" scope="col">
+                    Nombre de formations<br />
+                    <a href="{{ path('playlists.sort', {champ:'nbformations', ordre:'ASC'}) }}" class="btn btn-info btn-sm active" role="button" aria-pressed="true"><</a>
+                    <a href="{{ path('playlists.sort', {champ:'nbformations', ordre:'DESC'}) }}" class="btn btn-info btn-sm active" role="button" aria-pressed="true">></a>
+                </th>
+                <th class="text-center align-top" scope="col">
                     &nbsp;
                 </th>				
             </tr>
@@ -46,20 +51,23 @@
                             <h5 class="text-info">
                                 {{ playlists[k].name }}
                             </h5>
-                        </td>                 
+                        </td>
                         <td class="text-left">
                             {% set categories = playlists[k].categoriesplaylist %}
                             {% if categories|length > 0  %}
                                 {% for c in 0..categories|length-1 %}
-                                    &nbsp;{{ categories[c] }}                                  
+                                    &nbsp;{{ categories[c] }}
                                 {% endfor %}
                             {% endif %}
-                        </td>            					
+                        </td>
+                        <td class="text-center">
+                            {{ playlists[k].nbformations }}
+                        </td>
                         <td class="text-center">
                             <a href="{{ path('playlists.showone', {id:playlists[k].id}) }}" class="btn btn-secondary">Voir détail</a>
-                        </td> 					
+                        </td>
                     </tr>
-                {% endfor %}	
+                {% endfor %}
             {% endif %}
         </tbody>
     </table>

@@ -63,6 +63,16 @@ class PlaylistsController extends AbstractController {
             case "name":
                 $playlists = $this->playlistRepository->findAllOrderByName($ordre);
                 break;
+            case "nbformations":
+                if ($ordre == 'ASC') {
+                    $playlists = $this->playlistRepository->findAllOrderByNbFormationsASC();
+                } else {
+                    $playlists = $this->playlistRepository->findAllOrderByNbFormationsDESC();
+                }
+                break;
+            default:
+                $playlists = $this->playlistRepository->findAllOrderByName('DESC'); // Tri par défaut
+                break;
         }
         $categories = $this->categorieRepository->findAll();
         return $this->render(self::PLAYLISTS, [
