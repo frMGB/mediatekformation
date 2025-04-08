@@ -74,8 +74,6 @@
                         <td>
                             {% for categorie in formation.categories %}
                                 {{ categorie.name }}{% if not loop.last %}, {% endif %}
-                            {% else %}
-                                Aucune
                             {% endfor %}
                         </td>
                         <td class="text-center">{{ formation.publishedAt ? formation.publishedAt|date('d/m/Y') : '' }}</td>
