@@ -28,7 +28,7 @@ class AdminCategoriesController extends AbstractController
     #[Route('', name: 'admin.categories.index', methods: ['GET'])]
     public function index(): Response
     {
-        $categories = $this->categorieRepository->findBy([], ['name' => 'ASC']); // Tri par nom
+        $categories = $this->categorieRepository->findBy([], ['name' => 'ASC']);
 
         $categorie = new Categorie();
         $form = $this->createForm(CategorieType::class, $categorie, [
