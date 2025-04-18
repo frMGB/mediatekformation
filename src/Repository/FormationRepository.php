@@ -39,13 +39,13 @@ class FormationRepository extends ServiceEntityRepository
     {
         if ($table == "") {
             return $this->createQueryBuilder('f')
-                ->orderBy('f.' . $champ, $ordre)
+                ->orderBy("f.{$champ}", $ordre)
                 ->getQuery()
                 ->getResult();
         } else {
             return $this->createQueryBuilder('f')
-                ->join('f.' . $table, 't')
-                ->orderBy('t.' . $champ, $ordre)
+                ->join("f.{$table}", 't')
+                ->orderBy("t.{$champ}", $ordre)
                 ->getQuery()
                 ->getResult();
         }
@@ -66,17 +66,17 @@ class FormationRepository extends ServiceEntityRepository
         }
         if ($table == "") {
             return $this->createQueryBuilder('f')
-                ->where('f.' . $champ . ' LIKE :valeur')
+                ->where("f.{$champ} LIKE :valeur")
                 ->orderBy('f.publishedAt', 'DESC')
-                ->setParameter('valeur', '%' . $valeur . '%')
+                ->setParameter('valeur', "%{$valeur}%")
                 ->getQuery()
                 ->getResult();
         } else {
             return $this->createQueryBuilder('f')
-                ->join('f.' . $table, 't')
-                ->where('t.' . $champ . ' LIKE :valeur')
+                ->join("f.{$table}", 't')
+                ->where("t.{$champ} LIKE :valeur")
                 ->orderBy('f.publishedAt', 'DESC')
-                ->setParameter('valeur', '%' . $valeur . '%')
+                ->setParameter('valeur', "%{$valeur}%")
                 ->getQuery()
                 ->getResult();
         }

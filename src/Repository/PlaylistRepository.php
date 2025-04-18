@@ -34,13 +34,14 @@ class PlaylistRepository extends ServiceEntityRepository
      * @param type $ordre
      * @return Playlist[]
      */
-    public function findAllOrderByName($ordre): array{
+    public function findAllOrderByName($ordre): array
+    {
         return $this->createQueryBuilder('p')
-                ->leftjoin('p.formations', 'f')
-                ->groupBy('p.id')
-                ->orderBy('p.name', $ordre)
-                ->getQuery()
-                ->getResult();
+            ->leftjoin('p.formations', 'f')
+            ->groupBy('p.id')
+            ->orderBy('p.name', $ordre)
+            ->getQuery()
+            ->getResult();
     }
 
     /**
@@ -51,29 +52,30 @@ class PlaylistRepository extends ServiceEntityRepository
      * @param type $table si $champ dans une autre table
      * @return Playlist[]
      */
-    public function findByContainValue($champ, $valeur, $table=""): array{
-        if($valeur==""){
+    public function findByContainValue($champ, $valeur, $table = ""): array
+    {
+        if ($valeur == "") {
             return $this->findAllOrderByName('ASC');
         }
-        if($table==""){
+        if ($table == "") {
             return $this->createQueryBuilder('p')
-                    ->leftjoin('p.formations', 'f')
-                    ->where('p.'.$champ.' LIKE :valeur')
-                    ->setParameter('valeur', '%'.$valeur.'%')
-                    ->groupBy('p.id')
-                    ->orderBy('p.name', 'ASC')
-                    ->getQuery()
-                    ->getResult();
-        }else{
+                ->leftjoin('p.formations', 'f')
+                ->where("p.{$champ} LIKE :valeur")
+                ->setParameter('valeur', "%{$valeur}%")
+                ->groupBy('p.id')
+                ->orderBy('p.name', 'ASC')
+                ->getQuery()
+                ->getResult();
+        } else {
             return $this->createQueryBuilder('p')
-                    ->leftjoin('p.formations', 'f')
-                    ->leftjoin('f.categories', 'c')
-                    ->where('c.'.$champ.' LIKE :valeur')
-                    ->setParameter('valeur', '%'.$valeur.'%')
-                    ->groupBy('p.id')
-                    ->orderBy('p.name', 'ASC')
-                    ->getQuery()
-                    ->getResult();
+                ->leftjoin('p.formations', 'f')
+                ->leftjoin('f.categories', 'c')
+                ->where("c.{$champ} LIKE :valeur")
+                ->setParameter('valeur', "%{$valeur}%")
+                ->groupBy('p.id')
+                ->orderBy('p.name', 'ASC')
+                ->getQuery()
+                ->getResult();
         }
     }
 
@@ -81,26 +83,28 @@ class PlaylistRepository extends ServiceEntityRepository
      * Retourne toutes les playlists triées sur le nombre de formations (ordre croissant)
      * @return Playlist[]
      */
-    public function findAllOrderByNbFormationsASC(): array{
+    public function findAllOrderByNbFormationsASC(): array
+    {
         return $this->createQueryBuilder('p')
-                ->leftJoin('p.formations', 'f')
-                ->groupBy('p.id')
-                ->orderBy('COUNT(f.id)', 'ASC')
-                ->getQuery()
-                ->getResult();
+            ->leftJoin('p.formations', 'f')
+            ->groupBy('p.id')
+            ->orderBy('COUNT(f.id)', 'ASC')
+            ->getQuery()
+            ->getResult();
     }
 
     /**
      * Retourne toutes les playlists triées sur le nombre de formations (ordre décroissant)
      * @return Playlist[]
      */
-    public function findAllOrderByNbFormationsDESC(): array{
+    public function findAllOrderByNbFormationsDESC(): array
+    {
         return $this->createQueryBuilder('p')
-                ->leftJoin('p.formations', 'f')
-                ->groupBy('p.id')
-                ->orderBy('COUNT(f.id)', 'DESC')
-                ->getQuery()
-                ->getResult();
+            ->leftJoin('p.formations', 'f')
+            ->groupBy('p.id')
+            ->orderBy('COUNT(f.id)', 'DESC')
+            ->getQuery()
+            ->getResult();
     }
 
 }
