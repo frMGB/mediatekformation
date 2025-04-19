@@ -9,9 +9,16 @@ use App\Entity\User;
 use App\Entity\Categorie;
 use Doctrine\ORM\EntityManagerInterface;
 
+/**
+ * Teste le contrôleur AdminCategoriesController.
+ */
 class AdminCategoriesControllerTest extends WebTestCase
 {
-    // Méthode helper pour connecter l'admin
+    /**
+     * Crée un client web authentifié en tant qu'administrateur.
+     *
+     * @return \Symfony\Bundle\FrameworkBundle\KernelBrowser Le client web authentifié.
+     */
     private function createAuthenticatedClient()
     {
         $client = static::createClient();
@@ -25,7 +32,10 @@ class AdminCategoriesControllerTest extends WebTestCase
         return $client;
     }
 
-    // Test pour les liens de suppression des catégories
+    /**
+     * Teste l'affichage conditionnel des liens/boutons de suppression des catégories
+     * en fonction de la présence de formations associées.
+     */
     public function testAdminCategoryDeleteLinks(): void
     {
         $client = $this->createAuthenticatedClient();

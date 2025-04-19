@@ -10,8 +10,17 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
+/**
+ * Type de formulaire pour l'entité Categorie.
+ */
 class CategorieType extends AbstractType
 {
+    /**
+     * Construit le formulaire pour l'entité Categorie.
+     *
+     * @param FormBuilderInterface $builder Le constructeur de formulaire.
+     * @param array $options Les options du formulaire.
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -29,6 +38,11 @@ class CategorieType extends AbstractType
             ]);
     }
 
+    /**
+     * Configure les options par défaut pour ce type de formulaire.
+     *
+     * @param OptionsResolver $resolver Le résolveur d'options.
+     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

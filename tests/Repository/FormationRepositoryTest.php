@@ -14,6 +14,9 @@ use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 
+/**
+ * Teste le repository FormationRepository.
+ */
 class FormationRepositoryTest extends KernelTestCase
 {
     private const FORMATION_TITLE_SYMFONY_AVANCE = 'Symfony Avancé : Services et Injection';
@@ -22,6 +25,9 @@ class FormationRepositoryTest extends KernelTestCase
 
     // --- Tests pour findAllOrderBy ---
 
+    /**
+     * Teste le tri des formations par date de publication DESC.
+     */
     public function testFindAllOrderByDateDesc(): void
     {
         $entityManager = self::getContainer()->get(EntityManagerInterface::class);
@@ -38,6 +44,9 @@ class FormationRepositoryTest extends KernelTestCase
         }
     }
 
+    /**
+     * Teste le tri des formations par date de publication ASC.
+     */
     public function testFindAllOrderByDateAsc(): void
     {
         $entityManager = self::getContainer()->get(EntityManagerInterface::class);
@@ -54,6 +63,9 @@ class FormationRepositoryTest extends KernelTestCase
         }
     }
 
+    /**
+     * Teste le tri des formations par titre ASC.
+     */
     public function testFindAllOrderByTitleAsc(): void
     {
         $entityManager = self::getContainer()->get(EntityManagerInterface::class);
@@ -64,6 +76,9 @@ class FormationRepositoryTest extends KernelTestCase
         $this->assertEquals('Tests Unitaires en PHP avec PHPUnit', $formations[4]->getTitle());
     }
 
+    /**
+     * Teste le tri des formations par nom de playlist DESC.
+     */
     public function testFindAllOrderByPlaylistNameDesc(): void
     {
         $entityManager = self::getContainer()->get(EntityManagerInterface::class);
@@ -79,6 +94,9 @@ class FormationRepositoryTest extends KernelTestCase
 
     // --- Tests pour findByContainValue ---
 
+    /**
+     * Teste la recherche par titre avec un résultat trouvé.
+     */
     public function testFindByContainValueTitleFound(): void
     {
         $entityManager = self::getContainer()->get(EntityManagerInterface::class);
@@ -89,6 +107,9 @@ class FormationRepositoryTest extends KernelTestCase
         $this->assertStringContainsString('Symfony', $formations[1]->getTitle());
     }
 
+    /**
+     * Teste la recherche par titre avec aucun résultat.
+     */
     public function testFindByContainValueTitleNotFound(): void
     {
         $entityManager = self::getContainer()->get(EntityManagerInterface::class);
@@ -97,6 +118,9 @@ class FormationRepositoryTest extends KernelTestCase
         $this->assertCount(0, $formations);
     }
 
+    /**
+     * Teste la recherche par description avec des résultats trouvés.
+     */
     public function testFindByContainValueDescriptionFound(): void
     {
         $entityManager = self::getContainer()->get(EntityManagerInterface::class);
@@ -107,6 +131,9 @@ class FormationRepositoryTest extends KernelTestCase
         $this->assertStringContainsString('bases', $formations[1]->getDescription());
     }
 
+    /**
+     * Teste la recherche par nom de playlist avec des résultats trouvés.
+     */
     public function testFindByContainValuePlaylistNameFound(): void
     {
         $entityManager = self::getContainer()->get(EntityManagerInterface::class);
@@ -118,6 +145,9 @@ class FormationRepositoryTest extends KernelTestCase
         $this->assertEquals(self::PLAYLIST_NAME_DEVELOPPEMENT_WEB, $formations[2]->getPlaylist()->getName());
     }
 
+    /**
+     * Teste la recherche avec une valeur vide, doit retourner tous les éléments.
+     */
     public function testFindByContainValueEmptyValue(): void
     {
         $entityManager = self::getContainer()->get(EntityManagerInterface::class);
@@ -128,6 +158,9 @@ class FormationRepositoryTest extends KernelTestCase
 
     // --- Test pour findAllLasted ---
 
+    /**
+     * Teste la récupération des N dernières formations.
+     */
     public function testFindAllLasted(): void
     {
         $entityManager = self::getContainer()->get(EntityManagerInterface::class);
@@ -140,6 +173,9 @@ class FormationRepositoryTest extends KernelTestCase
 
     // --- Test pour findAllForOnePlaylist ---
 
+    /**
+     * Teste la récupération des formations pour une playlist spécifique.
+     */
     public function testFindAllForOnePlaylist(): void
     {
         $entityManager = self::getContainer()->get(EntityManagerInterface::class);

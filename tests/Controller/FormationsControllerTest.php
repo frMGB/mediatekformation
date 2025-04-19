@@ -8,6 +8,9 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\EntityManagerInterface;
 
+/**
+ * Teste le contrôleur FormationsController (front-office).
+ */
 class FormationsControllerTest extends WebTestCase
 {
     private const FIRST_ROW_FIRST_CELL_SELECTOR = 'table.table tbody tr:first-child td:first-child h5';
@@ -15,7 +18,9 @@ class FormationsControllerTest extends WebTestCase
     private const FORMATIONS = '/formations';
     private const TABLE_ROW_SELECTOR = 'table.table tbody tr';
 
-    // Test tri par titre
+    /**
+     * Teste le tri des formations par titre (ASC et DESC) sur la page publique.
+     */
     public function testSortByTitle(): void
     {
         $client = static::createClient();
@@ -31,7 +36,9 @@ class FormationsControllerTest extends WebTestCase
         $this->assertSelectorTextContains(self::FIRST_ROW_FIRST_CELL_SELECTOR, 'Tests Unitaires en PHP avec PHPUnit');
     }
 
-    // Test tri par nom de playlist
+    /**
+     * Teste le tri des formations par nom de playlist (ASC et DESC) sur la page publique.
+     */
     public function testSortByPlaylistName(): void
     {
         $client = static::createClient();
@@ -47,7 +54,9 @@ class FormationsControllerTest extends WebTestCase
         $this->assertSelectorTextContains(self::FIRST_ROW_SECOND_CELL_SELECTOR, 'Développement Web');
     }
 
-    // Test tri par date de publication
+    /**
+     * Teste le tri des formations par date de publication (ASC et DESC) sur la page publique.
+     */
     public function testSortByPublishedAt(): void
     {
         $client = static::createClient();
@@ -65,6 +74,9 @@ class FormationsControllerTest extends WebTestCase
 
     // --- Nouveaux Tests pour les Filtres ---
 
+    /**
+     * Teste le filtre des formations par titre sur la page publique.
+     */
     public function testFilterByTitle(): void
     {
         $client = static::createClient();
@@ -80,6 +92,9 @@ class FormationsControllerTest extends WebTestCase
         $this->assertSelectorTextContains(self::FIRST_ROW_FIRST_CELL_SELECTOR, 'Symfony');
     }
 
+    /**
+     * Teste le filtre des formations par nom de playlist sur la page publique.
+     */
     public function testFilterByPlaylistName(): void
     {
         $client = static::createClient();
@@ -95,6 +110,9 @@ class FormationsControllerTest extends WebTestCase
         $this->assertSelectorTextContains(self::FIRST_ROW_SECOND_CELL_SELECTOR, 'Bonnes Pratiques');
     }
 
+    /**
+     * Teste le filtre des formations par catégorie sur la page publique.
+     */
     public function testFilterByCategory(): void
     {
         $client = static::createClient();
@@ -117,6 +135,9 @@ class FormationsControllerTest extends WebTestCase
 
     // --- Nouveau Test pour le lien de détail ---
 
+    /**
+     * Teste le clic sur le lien de détail d'une formation et vérifie l'affichage.
+     */
     public function testClickFormationLink(): void
     {
         $client = static::createClient();

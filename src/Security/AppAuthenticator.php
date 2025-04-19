@@ -16,16 +16,33 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\SecurityRequestAttributes;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
+/**
+ * Authentificateur pour le formulaire de connexion principal de l'application.
+ */
 class AppAuthenticator extends AbstractLoginFormAuthenticator
 {
     use TargetPathTrait;
 
+    /**
+     * @var string Nom de la route utilisée pour la connexion.
+     */
     public const LOGIN_ROUTE = 'app_login';
 
+    /**
+     * Constructeur de l'authentificateur.
+     *
+     * @param UrlGeneratorInterface $urlGenerator Générateur d'URL pour les redirections.
+     */
     public function __construct(private UrlGeneratorInterface $urlGenerator)
     {
     }
 
+    /**
+     * Crée un "passeport" d'authentification basé sur les données de la requête.
+     *
+     * @param Request $request La requête HTTP contenant les identifiants.
+     * @return Passport Le passeport d'authentification.
+     */
     public function authenticate(Request $request): Passport
     {
         $email = $request->getPayload()->getString('email');
@@ -42,6 +59,15 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
         );
     }
 
+    /**
+     * Définit la redirection après une authentification réussie.
+     * Redirige vers la page cible si elle existe, sinon vers la page d'administration des formations.
+     *
+     * @param Request $request La requête HTTP.
+     * @param TokenInterface $token Le token d'authentification.
+     * @param string $firewallName Le nom du pare-feu.
+     * @return Response|null La réponse de redirection ou null.
+     */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
@@ -52,6 +78,12 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
         return new RedirectResponse($this->urlGenerator->generate('admin.formations.index'));
     }
 
+    /**
+     * Retourne l'URL de la page de connexion.
+     *
+     * @param Request $request La requête HTTP.
+     * @return string L'URL de connexion.
+     */
     protected function getLoginUrl(Request $request): string
     {
         return $this->urlGenerator->generate(self::LOGIN_ROUTE);

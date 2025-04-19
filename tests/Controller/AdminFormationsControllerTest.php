@@ -11,6 +11,9 @@ use App\Repository\UserRepository;
 use App\Entity\User;
 use App\Entity\Categorie;
 
+/**
+ * Teste le contrôleur AdminFormationsController.
+ */
 class AdminFormationsControllerTest extends WebTestCase
 {
     private const ADMIN_FORMATIONS = '/admin/formations';
@@ -18,7 +21,11 @@ class AdminFormationsControllerTest extends WebTestCase
     private const FIRST_ROW_SECOND_CELL_SELECTOR = 'table.table tbody tr:first-child td:nth-child(2)';
     private const TABLE_ROW_SELECTOR = 'table.table tbody tr';
 
-    // Méthode helper pour connecter l'admin
+    /**
+     * Crée un client web authentifié en tant qu'administrateur.
+     *
+     * @return \Symfony\Bundle\FrameworkBundle\KernelBrowser Le client web authentifié.
+     */
     private function createAuthenticatedClient()
     {
         $client = static::createClient();
@@ -32,6 +39,9 @@ class AdminFormationsControllerTest extends WebTestCase
         return $client;
     }
 
+    /**
+     * Teste que l'ajout d'une formation avec une date de publication future échoue à la validation.
+     */
     public function testAjoutFormationDateFuture(): void
     {
         $client = $this->createAuthenticatedClient();
@@ -79,6 +89,9 @@ class AdminFormationsControllerTest extends WebTestCase
 
     // --- Nouveaux Tests pour les Tris ---
 
+    /**
+     * Teste le tri des formations par titre (ASC et DESC).
+     */
     public function testAdminSortByTitle(): void
     {
         $client = $this->createAuthenticatedClient();
@@ -94,6 +107,9 @@ class AdminFormationsControllerTest extends WebTestCase
         $this->assertSelectorTextContains(self::FIRST_ROW_FIRST_CELL_SELECTOR, 'Tests Unitaires en PHP avec PHPUnit');
     }
 
+    /**
+     * Teste le tri des formations par nom de playlist (ASC et DESC).
+     */
     public function testAdminSortByPlaylistName(): void
     {
         $client = $this->createAuthenticatedClient();
@@ -109,6 +125,9 @@ class AdminFormationsControllerTest extends WebTestCase
         $this->assertSelectorTextContains(self::FIRST_ROW_SECOND_CELL_SELECTOR, 'Développement Web');
     }
 
+    /**
+     * Teste le tri des formations par date de publication (ASC et DESC).
+     */
     public function testAdminSortByPublishedAt(): void
     {
         $client = $this->createAuthenticatedClient();
@@ -126,6 +145,9 @@ class AdminFormationsControllerTest extends WebTestCase
 
     // --- Nouveaux Tests pour les Filtres Admin ---
 
+    /**
+     * Teste le filtre des formations par titre.
+     */
     public function testAdminFilterByTitle(): void
     {
         $client = $this->createAuthenticatedClient();
@@ -141,6 +163,9 @@ class AdminFormationsControllerTest extends WebTestCase
         $this->assertSelectorTextContains(self::FIRST_ROW_FIRST_CELL_SELECTOR, 'PHP');
     }
 
+    /**
+     * Teste le filtre des formations par nom de playlist.
+     */
     public function testAdminFilterByPlaylistName(): void
     {
         $client = $this->createAuthenticatedClient();
@@ -156,6 +181,9 @@ class AdminFormationsControllerTest extends WebTestCase
         $this->assertSelectorTextContains(self::FIRST_ROW_SECOND_CELL_SELECTOR, 'Développement Web');
     }
 
+    /**
+     * Teste le filtre des formations par catégorie.
+     */
     public function testAdminFilterByCategory(): void
     {
         $client = $this->createAuthenticatedClient();
@@ -178,6 +206,9 @@ class AdminFormationsControllerTest extends WebTestCase
 
     // --- Nouveau Test pour le lien Modifier ---
 
+    /**
+     * Teste le clic sur le lien "Modifier" d'une formation et vérifie le formulaire.
+     */
     public function testAdminClickEditFormationLink(): void
     {
         $client = $this->createAuthenticatedClient();

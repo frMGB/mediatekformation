@@ -12,8 +12,14 @@ use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 
+/**
+ * Teste le repository CategorieRepository.
+ */
 class CategorieRepositoryTest extends KernelTestCase
 {
+    /**
+     * Teste la récupération des catégories pour la playlist "Développement Web".
+     */
     public function testFindAllForOnePlaylist(): void
     {
         // Récupérer l'entity manager directement
@@ -36,6 +42,9 @@ class CategorieRepositoryTest extends KernelTestCase
         $this->assertEquals('Symfony', $categories[1]->getName());
     }
 
+    /**
+     * Teste la récupération des catégories pour la playlist "Bonnes Pratiques".
+     */
     public function testFindAllForOnePlaylistBonnesPratiques(): void
     {
         $entityManager = self::getContainer()->get(EntityManagerInterface::class);

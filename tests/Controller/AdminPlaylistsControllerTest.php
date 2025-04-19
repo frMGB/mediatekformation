@@ -11,13 +11,20 @@ use App\Entity\Playlist;
 use App\Entity\Categorie;
 use Doctrine\ORM\EntityManagerInterface;
 
+/**
+ * Teste le contrôleur AdminPlaylistsController.
+ */
 class AdminPlaylistsControllerTest extends WebTestCase
 {
     private const ADMIN_PLAYLISTS = '/admin/playlists';
     private const TABLE_FIRST_ROW_FIRST_CELL_SELECTOR = 'table.table tbody tr:first-child td:first-child';
     private const PLAYLIST_NAME_BONNES_PRATIQUES = 'Bonnes Pratiques';
 
-    // Méthode helper pour connecter l'admin
+    /**
+     * Crée un client web authentifié en tant qu'administrateur.
+     *
+     * @return \Symfony\Bundle\FrameworkBundle\KernelBrowser Le client web authentifié.
+     */
     private function createAuthenticatedClient()
     {
         $client = static::createClient();
@@ -31,7 +38,9 @@ class AdminPlaylistsControllerTest extends WebTestCase
         return $client;
     }
 
-    // Test tri par nom de playlist
+    /**
+     * Teste le tri des playlists par nom (ASC et DESC).
+     */
     public function testAdminSortByName(): void
     {
         $client = $this->createAuthenticatedClient();
@@ -47,7 +56,9 @@ class AdminPlaylistsControllerTest extends WebTestCase
         $this->assertSelectorTextContains(self::TABLE_FIRST_ROW_FIRST_CELL_SELECTOR, 'Développement Web');
     }
 
-    // Test tri par nombre de formations
+    /**
+     * Teste le tri des playlists par nombre de formations (ASC et DESC).
+     */
     public function testAdminSortByNbFormations(): void
     {
         $client = $this->createAuthenticatedClient();
@@ -67,6 +78,9 @@ class AdminPlaylistsControllerTest extends WebTestCase
 
     // --- Nouveaux Tests pour les Filtres Admin ---
 
+    /**
+     * Teste le filtre des playlists par nom.
+     */
     public function testAdminFilterByName(): void
     {
         $client = $this->createAuthenticatedClient();
@@ -82,6 +96,9 @@ class AdminPlaylistsControllerTest extends WebTestCase
         $this->assertSelectorTextContains(self::TABLE_FIRST_ROW_FIRST_CELL_SELECTOR, self::PLAYLIST_NAME_BONNES_PRATIQUES);
     }
 
+    /**
+     * Teste le filtre des playlists par catégorie.
+     */
     public function testAdminFilterByCategory(): void
     {
         $client = $this->createAuthenticatedClient();
@@ -104,6 +121,9 @@ class AdminPlaylistsControllerTest extends WebTestCase
 
     // --- Nouveau Test pour le lien Modifier ---
 
+    /**
+     * Teste le clic sur le lien "Modifier" d'une playlist et vérifie le formulaire.
+     */
     public function testAdminClickEditPlaylistLink(): void
     {
         $client = $this->createAuthenticatedClient();

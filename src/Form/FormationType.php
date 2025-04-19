@@ -17,8 +17,17 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\LessThanOrEqual;
 use DateTime;
 
+/**
+ * Type de formulaire pour l'entité Formation.
+ */
 class FormationType extends AbstractType
 {
+    /**
+     * Construit le formulaire pour l'entité Formation.
+     *
+     * @param FormBuilderInterface $builder Le constructeur de formulaire.
+     * @param array $options Les options du formulaire.
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -72,6 +81,11 @@ class FormationType extends AbstractType
             ]);
     }
 
+    /**
+     * Configure les options par défaut pour ce type de formulaire.
+     *
+     * @param OptionsResolver $resolver Le résolveur d'options.
+     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

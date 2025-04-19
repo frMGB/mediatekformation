@@ -10,17 +10,32 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 
 /**
+ * Repository pour l'entité User.
+ *
  * @extends ServiceEntityRepository<User>
+ *
+ * @method User|null find($id, $lockMode = null, $lockVersion = null)
+ * @method User|null findOneBy(array $criteria, array $orderBy = null)
+ * @method User[]    findAll()
+ * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
+    /**
+     * Constructeur du repository.
+     *
+     * @param ManagerRegistry $registry Le registre de services.
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, User::class);
     }
 
     /**
-     * Used to upgrade (rehash) the user's password automatically over time.
+     * Utilisé pour mettre à jour le mot de passe de l'utilisateur automatiquement.
+     *
+     * @param PasswordAuthenticatedUserInterface $user L'utilisateur dont le mot de passe doit être mis à jour.
+     * @param string $newHashedPassword Le nouveau mot de passe hashé.
      */
     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
     {

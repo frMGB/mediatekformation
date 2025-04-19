@@ -8,13 +8,18 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\EntityManagerInterface;
 
+/**
+ * Teste le contrôleur PlaylistsController (front-office).
+ */
 class PlaylistsControllerTest extends WebTestCase
 {
     private const FIRST_PLAYLIST_NAME_SELECTOR = 'table.table tbody tr:first-child td:first-child h5';
     private const FIRST_PLAYLIST_NAME_ASC = 'Bonnes Pratiques';
     private const PLAYLISTS = '/playlists';
 
-    // Test tri par nom de playlist
+    /**
+     * Teste le tri des playlists par nom (ASC et DESC) sur la page publique.
+     */
     public function testSortByName(): void
     {
         $client = static::createClient();
@@ -30,7 +35,9 @@ class PlaylistsControllerTest extends WebTestCase
         $this->assertSelectorTextContains(self::FIRST_PLAYLIST_NAME_SELECTOR, 'Développement Web');
     }
 
-    // Test tri par nombre de formations
+    /**
+     * Teste le tri des playlists par nombre de formations (ASC et DESC) sur la page publique.
+     */
     public function testSortByNbFormations(): void
     {
         $client = static::createClient();
@@ -48,6 +55,9 @@ class PlaylistsControllerTest extends WebTestCase
 
     // --- Nouveaux Tests pour les Filtres ---
 
+    /**
+     * Teste le filtre des playlists par nom sur la page publique.
+     */
     public function testFilterByName(): void
     {
         $client = static::createClient();
@@ -63,6 +73,9 @@ class PlaylistsControllerTest extends WebTestCase
         $this->assertSelectorTextContains(self::FIRST_PLAYLIST_NAME_SELECTOR, self::FIRST_PLAYLIST_NAME_ASC);
     }
 
+    /**
+     * Teste le filtre des playlists par catégorie sur la page publique.
+     */
     public function testFilterByCategory(): void
     {
         $client = static::createClient();
@@ -84,6 +97,9 @@ class PlaylistsControllerTest extends WebTestCase
 
     // --- Nouveau Test pour le lien de détail ---
 
+    /**
+     * Teste le clic sur le lien de détail d'une playlist et vérifie l'affichage.
+     */
     public function testClickPlaylistLink(): void
     {
         $client = static::createClient();

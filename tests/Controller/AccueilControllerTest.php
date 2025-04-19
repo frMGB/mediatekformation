@@ -4,8 +4,14 @@ namespace App\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
+/**
+ * Teste le contrôleur AccueilController.
+ */
 class AccueilControllerTest extends WebTestCase
 {
+    /**
+     * Teste l'accessibilité et le contenu de la page d'accueil.
+     */
     public function testHomepageIsAccessible(): void
     {
         $client = static::createClient();

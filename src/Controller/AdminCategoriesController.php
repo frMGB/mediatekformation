@@ -11,20 +11,40 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Contrôleur pour la gestion des catégories dans l'administration.
+ */
 #[Route('/admin/categories')]
 class AdminCategoriesController extends AbstractController
 {
     private const TEMPLATE_CATEGORIES = 'admin/categories/index.html.twig';
 
+    /**
+     * @var CategorieRepository Le repository des catégories.
+     */
     private $categorieRepository;
+    /**
+     * @var EntityManagerInterface L'entity manager.
+     */
     private $em;
 
+    /**
+     * Constructeur de AdminCategoriesController.
+     *
+     * @param CategorieRepository $categorieRepository Le repository des catégories.
+     * @param EntityManagerInterface $em L'entity manager.
+     */
     public function __construct(CategorieRepository $categorieRepository, EntityManagerInterface $em)
     {
         $this->categorieRepository = $categorieRepository;
         $this->em = $em;
     }
 
+    /**
+     * Affiche la liste des catégories et le formulaire d'ajout.
+     *
+     * @return Response La réponse HTTP contenant la page d'administration des catégories.
+     */
     #[Route('', name: 'admin.categories.index', methods: ['GET'])]
     public function index(): Response
     {
@@ -42,6 +62,12 @@ class AdminCategoriesController extends AbstractController
         ]);
     }
 
+    /**
+     * Gère l'ajout d'une nouvelle catégorie.
+     *
+     * @param Request $request La requête HTTP.
+     * @return Response La réponse HTTP (redirection ou affichage du formulaire avec erreurs).
+     */
     #[Route('/ajout', name: 'admin.categories.ajout', methods: ['GET', 'POST'])]
     public function ajout(Request $request): Response
     {
@@ -73,8 +99,14 @@ class AdminCategoriesController extends AbstractController
         ]);
     }
 
+    /**
+     * Gère la suppression d'une catégorie.
+     *
+     * @param Categorie $categorie La catégorie à supprimer.
+     * @return Response La réponse HTTP (redirection vers l'index des catégories).
+     */
     #[Route('/suppr/{id}', name: 'admin.categories.suppr', methods: ['GET', 'POST'])]
-    public function suppr(Categorie $categorie, Request $request): Response
+    public function suppr(Categorie $categorie): Response
     {
         if (!$categorie->getFormations()->isEmpty()) {
             $this->addFlash('error', 'Impossible de supprimer la catégorie "' . $categorie->getName() . '" car elle est utilisée par des formations.');
